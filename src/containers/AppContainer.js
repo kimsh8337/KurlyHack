@@ -1,12 +1,14 @@
 import React from 'react';
 import Home from "pages/Home.js";
-import { GlobalStyles } from 'modules/defines/styles.js';
+import Footer from 'components/Footer';
+import Header from 'components/Header';
 
 const AppContainer = () => {
     return (
       <>
-        <GlobalStyles />
+        <Header />
         <Home/>
+        <Footer />
       </>
     );
 }
