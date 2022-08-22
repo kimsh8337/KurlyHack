@@ -1,8 +1,9 @@
 import Recat from 'react';
+import UserContainer from 'containers/UserContainer';
 
 const User = () => {
   return (
-    <h1>User Page</h1>
+    <UserContainer />
   );
 };
 

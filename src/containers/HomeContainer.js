@@ -1,5 +1,5 @@
 import React from 'react';
-import ItemsExplainBox, { FontTitle, HomeWrapper } from 'components/HomeComponent';
+import ItemsExplainBox, { FontTitle, HomeWrapper } from 'components/HomeForm';
 import Carousel from 'components/Carousel';
 
 const HomeContainer = () => {

@@ -11,7 +11,7 @@ export const palette = {
 };
 
 export const size = {
-  header: 50,
+  header: 80,
   footer: 40,
   minWidth: 320,
   maxWidth: 479,
@@ -29,5 +29,34 @@ export const GlobalStyles = createGlobalStyle`
   }
   * {
     box-sizing: border-box;
+  }
+  input[type='email'],
+  input[type='text'],
+  input[type='tel'],
+  input[type='password'] {
+    outline: 0;
+    font-family: ${fontSANS};
+    padding: 0;
+    border-radius: 0;
+    border: 0;
+  }
+
+  button {
+    padding: 0;
+    border: 0;
+    border-radius: 0;
+    background: transparent;
+    cursor: pointer;
+    font-family: inherit;
+    color: inherit;
+    pointer-events: fill;
+
+    * {
+      pointer-events: none;
+    }
+
+    &:disabled {
+      cursor: default;
+    }
   }
 `;

@@ -1,13 +1,18 @@
 import React from 'react';
 import { GlobalStyles } from 'modules/defines/styles.js';
 import AppContainer from "containers/AppContainer.js";
+import { HashRouter } from 'react-router-dom';
+import Routes from 'Router';
 
-function App() {
+const App = () => {
+  
   return (
-    <>
+    <HashRouter>
       <GlobalStyles />
-      <AppContainer />
-    </>
+      <AppContainer>
+        <Routes />
+      </AppContainer>
+    </HashRouter>
   );
 }
 
