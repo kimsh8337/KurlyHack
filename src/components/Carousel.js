@@ -14,16 +14,16 @@ const CarouselImgWrapper = styled.div`
   transform: translateX(-100%);
 `;
 
-const Carousel = ({ time }) => {
+const Carousel = ({ time, items }) => {
   const [imgState, setImgState] = useState(1);
-  const ImgWrapper = useRef(null);
-  const imgData = [
+  const [imgData, setImgData] = useState([
     'https://health.chosun.com/site/data/img_dir/2022/06/10/2022061001724_0.jpg',
     'https://cdn.huffingtonpost.kr/news/photo/202102/106356_200066.jpeg', 
     'https://pds.joongang.co.kr//news/component/htmlphoto_mmdata/201808/17/6a951a16-f7a4-490d-8f75-7e01c9a396ad.jpg',
     'https://health.chosun.com/site/data/img_dir/2022/06/10/2022061001724_0.jpg',
     'https://cdn.huffingtonpost.kr/news/photo/202102/106356_200066.jpeg', 
-  ];
+  ]);
+  const ImgWrapper = useRef(null);
  
   useEffect(() => {
     const timer = setInterval(() => {
@@ -45,10 +45,22 @@ const Carousel = ({ time }) => {
     return () => clearInterval(timer);
   }, []);
 
+  useEffect(() => {
+    if (items.length > 0) {
+      const arr = [];
+      arr.push(items[items.length - 1].image);
+      items.map(v => {
+        arr.push(v.image);
+      });
+      arr.push(items[0].image);
+      setImgData(arr);
+    }
+  }, [items]);
+
   return (
     <CarouselFormContainer>
       <CarouselImgWrapper ref={ImgWrapper}>
-        {imgData.map((value, index) => (
+        {imgData.length > 0 && imgData.map((value, index) => (
           <img key={index} src={value} alt="carouselImg" width="100%" height="100%" />
         ))}    
       </CarouselImgWrapper>

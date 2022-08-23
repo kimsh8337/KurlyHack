@@ -20,7 +20,7 @@ const UserName = styled.span`
 const UserInfo = ({ children, user }) => {
   return (
     <UserInfoWrapper>
-      <UserName>안녕하세요 {user.name}님!</UserName>
+      <UserName>안녕하세요 {user.user_id}님!</UserName>
       {children}
     </UserInfoWrapper>
   );
@@ -59,9 +59,12 @@ export const InputBox = ({ title, value, onChange }) => {
 
   return (
     <InputBoxWrapper>
-      <span>{title}</span>
+      <span>{title === 'user_id' && '아이디'}</span>
+      <span>{title === 'point' && '포인트'}</span>
+      <span>{title === 'address' && '주소'}</span>
+      <span>{title === 'zip_code' && '우편번호'}</span>
       <InputWrapper>
-        <input type="text" value={value} placeholder={value} onChange={handleInputValue} />
+        <input type="text" value={value} placeholder={value} onChange={handleInputValue} disabled />
       </InputWrapper>
     </InputBoxWrapper>
   );
@@ -77,10 +80,21 @@ const BeforeOrderWrapper = styled.div`
 const BeforeOrderItemsWrapper = styled.div`
   width: 100%;
   padding: 5px;
+  margin-bottom: 30px;
+`;
+
+const BeforeOrderTitle = styled.div`
+  display: flex;
+  justify-content: space-between;
 `;
 
 const BeforeOrderDate = styled.span`
   font-size: 14px;
+`;
+
+const BeforeOrderPrice = styled.span`
+  font-size: 14px;
+  font-weight: bold;
 `;
 
 const BeforeOrderItem = styled.div`
@@ -102,21 +116,25 @@ const BeforeOrderInfo = styled.span`
 `;
 
 export const BeforeOrderBox = ({ ordered }) => {
-  console.log(ordered);
   return (
     <BeforeOrderWrapper>
       <strong>이전 주문 내역</strong>
       {ordered.length > 0 && ordered.map((value, index) => (
         <BeforeOrderItemsWrapper key={index}>
-          <BeforeOrderDate>
-            주문일 : {value.order.date}
-          </BeforeOrderDate>
-          {value.orderItemList.map((v, i) => (
+          <BeforeOrderTitle>
+            <BeforeOrderDate>
+              주문일 : {value.order.date.split('T')[0]}
+            </BeforeOrderDate>
+            <BeforeOrderPrice>
+              총금액 : {value.order.price}원
+            </BeforeOrderPrice>
+          </BeforeOrderTitle>
+          {value.orderItems.map((v, i) => (
             <BeforeOrderItem key={i}>
-              <img src={v.src} alt={v.title} width="200px" height="150px" />
+              <img src={v.image} alt={v.item_name} width="200px" height="150px" />
               <BeforeOrderInfoWrapper>
-                <BeforeOrderInfo>{v.title}</BeforeOrderInfo>
-                <BeforeOrderInfo>{v.price}원</BeforeOrderInfo>
+                <BeforeOrderInfo>{v.item_name}</BeforeOrderInfo>
+                <BeforeOrderInfo>{v.price * v.count}원</BeforeOrderInfo>
               </BeforeOrderInfoWrapper>
             </BeforeOrderItem>
           ))}

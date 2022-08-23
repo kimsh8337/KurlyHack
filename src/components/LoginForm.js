@@ -51,20 +51,20 @@ const LoginButton = styled.button`
   margin-left: 10px;
 `;
 
-const LoginForm = ({ onClick }) => {
+const LoginForm = ({ user, onChange, onClick }) => {
   return (
     <LoginWrapper>
       <div>
         <LoginInputWrapper>
           <LoginInputTitle>아이디</LoginInputTitle>
           <LoginInput>
-            <input type="text" />
+            <input type="text" value={user.user_id} onChange={(e) => onChange('user_id', e.target.value)} />
           </LoginInput>
         </LoginInputWrapper>
         <LoginInputWrapper>
           <LoginInputTitle>패스워드</LoginInputTitle>
           <LoginInput>
-            <input type="text" />
+            <input type="password" value={user.password} onChange={(e) => onChange('password', e.target.value)} />
           </LoginInput>
         </LoginInputWrapper>
       </div>

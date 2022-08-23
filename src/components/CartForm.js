@@ -102,11 +102,11 @@ const CartForm = ({ children, cart, countUp, countDown, onChange, handleDelete }
       <CartItemsWrapper key={index}>
         <CheckBoxWrapper>
           <CartCheckbox type="checkbox" onChange={() => onChange(index)} checked={value.checked} />
-          <ItemTitle>{value.title}</ItemTitle>
+          <ItemTitle>{value.item_name}</ItemTitle>
           <DeleteButton onClick={() => handleDelete(index)}>삭제</DeleteButton>
         </CheckBoxWrapper>
         <CartItemsInfo>
-          <ItemImage src={value.src} alt={value.title} width="150px" height="150px" />
+          <ItemImage src={value.image} alt={value.item_name} width="150px" height="150px" />
           <CartPriceInfo>
             <ItemPrice>{value.price}원</ItemPrice>
             <CartCountBox count={value.count} countUp={() => countUp(index)} countDown={() => countDown(index)} />
@@ -143,9 +143,9 @@ const CartPrice = styled.span`
   font-size: 20px;
 `;
 
-export const CartPriceBox = ({ cart }) => {
+export const CartPriceBox = ({ cart, isNeighbor, total, setTotal }) => {
   const [cartPrice, setCartPrice] = useState(0);
-  const [deliveryFee, setDeliveryFee] = useState(3000);
+  const deliveryFee = isNeighbor ? 0 : 3000;
 
   useEffect(() => {
     let total = 0;
@@ -154,6 +154,10 @@ export const CartPriceBox = ({ cart }) => {
     })
     setCartPrice(total);
   }, [cart]);
+
+  useEffect(() => {
+    setTotal(cartPrice + deliveryFee);
+  }, [cartPrice]);
 
   return (
     <CartPriceWrapper>
@@ -167,11 +171,20 @@ export const CartPriceBox = ({ cart }) => {
       </CartPriceTitle>
       <CartPriceTitle>
         <CartPrice>총 주문가격 :</CartPrice>
-        <strong>{cartPrice + deliveryFee}원</strong>
+        <strong>{total}원</strong>
       </CartPriceTitle>
     </CartPriceWrapper>
   );
 };
+
+export const CartOrderButton = styled.button`
+  width: 100%;
+  height: 30px;
+  background-color: ${palette.primary};
+  color: ${palette.white};
+  border-radius: 5px;
+  font-size: 15px;
+`;
 
 export const CartNoItems = styled.div`
   width: 100%;

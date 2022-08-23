@@ -48,6 +48,7 @@ const Header = () => {
 
   const handleLogout = () => {
     localStorage.removeItem('isLogin');
+    localStorage.removeItem('user');
     navigate(pagePaths.home);
     setIsLogin(() => localStorage.getItem('isLogin'));
   };

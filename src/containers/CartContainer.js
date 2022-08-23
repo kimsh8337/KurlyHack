@@ -1,31 +1,39 @@
-import React, { useState } from 'react';
-import CartForm, { CartNoItems, CartPriceBox } from 'components/CartForm';
+import React, { useEffect, useState } from 'react';
+import CartForm, { CartNoItems, CartOrderButton, CartPriceBox } from 'components/CartForm';
+import { API } from 'modules/api/api';
 
 const CartContainer = () => {
-  const [cart, setCart] = useState([
-    {
-      src: 'https://cdn.huffingtonpost.kr/news/photo/202102/106356_200066.jpeg', 
-      title: '너무너무 맛있는 소고기',
-      price: 29900,
-      count: 1,
-      checked: true
-    },
-    {
-      src: 'https://pds.joongang.co.kr//news/component/htmlphoto_mmdata/201808/17/6a951a16-f7a4-490d-8f75-7e01c9a396ad.jpg',
-      title: '따끈따끈 쌀밥',
-      price: 19900,
-      count: 1,
-      checked: true
-    },
-    {
-      src: 'https://health.chosun.com/site/data/img_dir/2022/06/10/2022061001724_0.jpg',
-      title: '갓 짠 우유',
-      price: 2900,
-      count: 1,
-      checked: true
-    },
-  ]);
+  const [cart, setCart] = useState([]);
+  const [isNeighbor, setIsNeighbor] = useState(false);
+  const [total, setTotal] = useState(0);
 
+  useEffect(() => {
+    const user_id = JSON.parse(localStorage.getItem('user')).user_id;
+    const zip_code = JSON.parse(localStorage.getItem('user')).zip_code;
+    API.getNowOrder(user_id).then(
+      response => {
+        console.log(response);
+        const data = response.map(d => {
+          const checked = { checked: true };
+          return { ...d, ...checked };
+        });
+
+        setCart(data);
+      },
+      error => {
+        console.log(error);
+      }
+    );
+    API.searchNeighbor(zip_code).then(
+      response => {
+        setIsNeighbor(response);
+      },
+      error => {
+        console.log(error);
+      }
+    )
+  }, []);
+  
   const handleChecked = (index) => {
     setCart(
       cart.filter(d => {
@@ -71,6 +79,26 @@ const CartContainer = () => {
       })
     )
   };
+  
+  const handleOrder = () => {
+    const user_id = JSON.parse(localStorage.getItem('user')).user_id;
+    const itemList = cart.filter(d => d.checked && d);
+    API.order({
+      order:{
+        user_id: user_id, 
+        price: total
+      }, 
+      orderItemList : itemList
+    }).then(
+      response => {
+        alert('주문이 완료되었습니다!');
+        setCart([]);
+      },
+      error => {
+        console.log(error);
+      }
+    )
+  };
 
   if (localStorage.getItem('isLogin') && cart.length > 0) {
     return (
@@ -81,7 +109,10 @@ const CartContainer = () => {
         onChange={handleChecked}
         handleDelete={handleDelete}
       >
-        <CartPriceBox cart={cart} />
+        <CartPriceBox cart={cart} isNeighbor={isNeighbor} total={total} setTotal={setTotal} />
+        <CartOrderButton onClick={handleOrder}>
+          주문하기
+        </CartOrderButton>
       </CartForm>
     );
   } else {

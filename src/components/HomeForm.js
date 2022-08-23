@@ -53,13 +53,12 @@ export const ItemPrice = styled.span`
 `;
 
 const ItemsExplainBox = ({ items, handleGetItem }) => {
-
     return (
       <ItemsWrapper>
         {items.map((value, index) => (
-          <ItemWrapper key={index} onClick={() => handleGetItem(value.title)}>
-            <ItemImage src={value.src} alt={value.title} width="100%" height="150px" />
-            <ItemTitle>{value.title}</ItemTitle>
+          <ItemWrapper key={index} onClick={() => handleGetItem(value)}>
+            <ItemImage src={value.image} alt={value.item_name} width="100%" height="150px" />
+            <ItemTitle>{value.item_name}</ItemTitle>
             <ItemPrice>{value.price}원</ItemPrice>
           </ItemWrapper>
         ))}
