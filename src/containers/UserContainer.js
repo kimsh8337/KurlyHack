@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import UserInfo, { InputBox, UserInputWrapper, UserWrapper } from 'components/UserForm';
+import UserInfo, { BeforeOrderBox, InputBox, UserInputWrapper, UserWrapper } from 'components/UserForm';
 import LoginContainer from './LoginContainer';
 
 const UserContainer = () => {
-  const [isLogin, setIsLogin] = useState(false);
   const [user, setUser] = useState({
     name: '김석환',
     id: {
@@ -19,10 +18,30 @@ const UserContainer = () => {
       title: '포인트'
     }
   });
+  const [ordered, setOrdered] = useState([
+    {
+      order: {
+        date: '2022-05-30'
+      },
+      orderItemList: [
+        {
+          src: 'https://pds.joongang.co.kr//news/component/htmlphoto_mmdata/201808/17/6a951a16-f7a4-490d-8f75-7e01c9a396ad.jpg',
+          title: '따끈따끈 쌀밥',
+          price: 19900,
+          count: 1,
+        },
+        {
+          src: 'https://health.chosun.com/site/data/img_dir/2022/06/10/2022061001724_0.jpg',
+          title: '갓 짠 우유',
+          price: 2900,
+          count: 1,
+          checked: true
+        },
+      ]
+    }
+  ]);
+  const isLogin = localStorage.getItem('isLogin');
 
-  useEffect(() => {
-    setIsLogin(localStorage.getItem('isLogin'));
-  }, [localStorage]);
 
   const handleInputValue = (value, input) => {
     const newObj = {};
@@ -32,7 +51,7 @@ const UserContainer = () => {
 
   if (!isLogin) {
     return (
-      <LoginContainer setIsLogin={setIsLogin} />
+      <LoginContainer />
     );
   } else {
     return (
@@ -50,6 +69,7 @@ const UserContainer = () => {
             </UserInputWrapper>
           ))}
         </UserInfo>
+        <BeforeOrderBox ordered={ordered} />
       </UserWrapper>
     );
   }

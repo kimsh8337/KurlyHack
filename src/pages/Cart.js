@@ -1,8 +1,9 @@
 import React from 'react';
+import CartContainer from 'containers/CartContainer';
 
 const Cart = () => {
   return (
-    <h1>Cart Page</h1>
+    <CartContainer />
   );
 };
 

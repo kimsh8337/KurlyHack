@@ -1,10 +1,14 @@
 import React from 'react';
-import LoginForm from 'components/Login';
+import LoginForm from 'components/LoginForm';
+import { useNavigate } from 'react-router-dom';
+import { pagePaths } from 'modules/defines/paths';
 
-const LoginContainer = ({ setIsLogin }) => {
+const LoginContainer = () => {
+  const navigate = useNavigate();
+  
   const handleLogin = () => {
     localStorage.setItem('isLogin', true);
-    setIsLogin(true);
+    navigate(pagePaths.home);
     console.log('login api');
   };
 

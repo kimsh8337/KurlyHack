@@ -1,3 +1,4 @@
+import { palette } from 'modules/defines/styles';
 import React from 'react';
 import styled from 'styled-components';
 
@@ -24,24 +25,40 @@ const ItemWrapper = styled.div`
   margin-bottom: 10px;
 `;
 
-const ItemTitle = styled.span`
+export const Banner = styled.div`
+  width: 100%;
+  height: 50px;
+  // margin-top: 20px;
+  color: ${palette.primary};
+  text-align: center;
+  font-size: 18px;
+  font-weight: bold;
+`;
+
+export const ItemImage = styled.img`
+  width: ${props => props.width}px;
+  height: ${props => props.height}px;
+  border-radius: 5px;
+`;
+
+export const ItemTitle = styled.span`
   margin: 5px 2px;
   font-size: 12px;
 `;
 
-const ItemPrice = styled.span`
+export const ItemPrice = styled.span`
   font-size: 11px;
   font-weight: bold;
   margin: 0 2px;
 `;
 
-const ItemsExplainBox = ({ items }) => {
+const ItemsExplainBox = ({ items, handleGetItem }) => {
 
     return (
       <ItemsWrapper>
         {items.map((value, index) => (
-          <ItemWrapper key={index}>
-            <img src={value.src} alt={value.title} width="100%" height="150px" />
+          <ItemWrapper key={index} onClick={() => handleGetItem(value.title)}>
+            <ItemImage src={value.src} alt={value.title} width="100%" height="150px" />
             <ItemTitle>{value.title}</ItemTitle>
             <ItemPrice>{value.price}원</ItemPrice>
           </ItemWrapper>
