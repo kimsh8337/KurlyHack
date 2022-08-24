@@ -12,7 +12,6 @@ const HomeContainer = () => {
   const [isNeighbor, setIsNeighbor] = useState(false);
 
   useEffect(() => {
-    const zip_code = JSON.parse(localStorage.getItem('user')).zip_code;
     API.getItems().then(
       response => {
         setItems(response);
@@ -20,15 +19,18 @@ const HomeContainer = () => {
       error => {
         console.log(error);
       }
-    );
-    API.searchNeighbor(zip_code).then(
-      response => {
-        setIsNeighbor(response);
-      },
-      error => {
-        console.log(error);
-      }
-    )
+      );
+    if (localStorage.getItem('isLogin')) {
+      const zip_code = JSON.parse(localStorage.getItem('user')).zip_code;
+      API.searchNeighbor(zip_code).then(
+        response => {
+          setIsNeighbor(response);
+        },
+        error => {
+          console.log(error);
+        }
+      )
+    }
   }, []);
 
   const handleGetItem = ( value ) => {

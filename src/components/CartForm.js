@@ -145,7 +145,7 @@ const CartPrice = styled.span`
 
 export const CartPriceBox = ({ cart, isNeighbor, total, setTotal }) => {
   const [cartPrice, setCartPrice] = useState(0);
-  const deliveryFee = isNeighbor ? 0 : 3000;
+  const [deliveryFee, setDeliveryFee] = useState(3000);
 
   useEffect(() => {
     let total = 0;
@@ -153,6 +153,15 @@ export const CartPriceBox = ({ cart, isNeighbor, total, setTotal }) => {
       if (value.checked) total += (value.price * value.count);
     })
     setCartPrice(total);
+    if (isNeighbor) {
+      if (total >= 20000) {
+        setDeliveryFee(0);
+      } else {
+        setDeliveryFee(3000);
+      }
+    } else {
+      setDeliveryFee(3000);
+    }
   }, [cart]);
 
   useEffect(() => {

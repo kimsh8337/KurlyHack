@@ -8,30 +8,32 @@ const CartContainer = () => {
   const [total, setTotal] = useState(0);
 
   useEffect(() => {
-    const user_id = JSON.parse(localStorage.getItem('user')).user_id;
-    const zip_code = JSON.parse(localStorage.getItem('user')).zip_code;
-    API.getNowOrder(user_id).then(
-      response => {
-        console.log(response);
-        const data = response.map(d => {
-          const checked = { checked: true };
-          return { ...d, ...checked };
-        });
-
-        setCart(data);
-      },
-      error => {
-        console.log(error);
-      }
-    );
-    API.searchNeighbor(zip_code).then(
-      response => {
-        setIsNeighbor(response);
-      },
-      error => {
-        console.log(error);
-      }
-    )
+    if (localStorage.getItem('isLogin')) {
+      const user_id = JSON.parse(localStorage.getItem('user')).user_id;
+      const zip_code = JSON.parse(localStorage.getItem('user')).zip_code;
+      API.getNowOrder(user_id).then(
+        response => {
+          console.log(response);
+          const data = response.map(d => {
+            const checked = { checked: true };
+            return { ...d, ...checked };
+          });
+  
+          setCart(data);
+        },
+        error => {
+          console.log(error);
+        }
+      );
+      API.searchNeighbor(zip_code).then(
+        response => {
+          setIsNeighbor(response);
+        },
+        error => {
+          console.log(error);
+        }
+      )
+    }
   }, []);
   
   const handleChecked = (index) => {
