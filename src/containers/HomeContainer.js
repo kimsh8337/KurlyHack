@@ -6,7 +6,7 @@ import { API } from 'modules/api/api';
 const HomeContainer = () => {
   const bannerText = [
     '이웃 배송 시 500p 추가 적립 기회!!',
-    '이웃 배송으로 20000만원 이상 시 무료배송!!'
+    '이웃 배송으로 20,000원 이상 시 무료배송!!'
   ]
   const [items, setItems] = useState([]);
   const [isNeighbor, setIsNeighbor] = useState(false);
